@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+    parameters {
+        string(name: 'NUM1', defaultValue: '5', description: 'First number')
+        string(name: 'NUM2', defaultValue: '10', description: 'Second number')
+        string(name: 'operation', defaultValue: 'add', description: 'Enter operation')
+    }
+    stages {
+        stage('Setup Python Environment') {
+            steps {
+                script {
+                    // Optional: Verify Python installation
+                    bat 'python --version || exit 1'
+                }
+            }
+        }
+        stage('Run Python Script') {
+            steps {
+                script {
+                    // Pass arguments to the Python script
+                    bat "python Operations.py ${params.NUM1} ${params.NUM2} ${params.operation}"
+                }
+            }
+        }
+    }
+}
